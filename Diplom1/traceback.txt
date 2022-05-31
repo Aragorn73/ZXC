@@ -1,0 +1,28 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/script.rpy", line 105, in script
+    "молодец, ты смог дать мне монетку"
+ScriptError: could not find label 'keys'.
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "renpy/bootstrap.py", line 331, in bootstrap
+    renpy.main.main()
+  File "renpy/main.py", line 662, in main
+    run(restart)
+  File "renpy/main.py", line 148, in run
+    renpy.execution.run_context(True)
+  File "renpy/execution.py", line 922, in run_context
+    context.run()
+  File "game/script.rpy", line 105, in script
+    "молодец, ты смог дать мне монетку"
+  File "renpy/script.py", line 918, in lookup
+    raise ScriptError("could not find label '%s'." % str(original))
+ScriptError: could not find label 'keys'.
+
+Windows-10-10.0.19041
+Ren'Py 7.4.11.2266
+Diplom1 1.0
+Tue May 31 18:14:44 2022
