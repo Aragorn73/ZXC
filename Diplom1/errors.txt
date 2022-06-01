@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 101: expected ':' not found.
-    label give
-              ^
+File "game/coins.rpy", line 43: u'show' is not a keyword argument or valid child for the screen statement.
+    show("input_scr")
+        ^
 
 Ren'Py Version: Ren'Py 7.4.11.2266
-Tue May 31 18:11:47 2022
+Wed Jun  1 04:49:52 2022

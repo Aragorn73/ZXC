@@ -80,7 +80,6 @@ image menu_slideshow:
 
 label start:
     "Добро пожалоть в визуальную новеллу"
-#    show screen button
     "Вступление...."
     scene les with dissolve #плавный переход
     "Вашего главного героя зовут Антон, то вы можете поменять его имя"
@@ -92,7 +91,10 @@ label start:
     e smile "Я ваш главный персонаж"
     $ last_item = None
     show screen inventory
+    #show screen coins
     "А теперь покажу вам как работает инвентарь"
+    #show coin1 at left1
+    show screen cheat
     "Это очень просто, давайте начнем с простого примера "
     "Давай я дам тебе денежку"
     $ items.extend([("coin", "Денюжка")])
@@ -175,8 +177,6 @@ label vopros_two:
             "Это правильно!"
             jump City
     return
-
-
 
 
 
