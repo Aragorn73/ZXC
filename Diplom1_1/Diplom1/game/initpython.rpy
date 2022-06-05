@@ -7,14 +7,16 @@ init -2 python:
             renpy.restart_interaction()
             if last_item[0] == "coin":
                 renpy.jump("money")
-            if last_item[0] == "flower":
-                renpy.jump("fising")
+            if last_item[0] == "rod":
+                renpy.jump("StartMiniGame")
             if last_item[0] == "star":
                 renpy.jump("powers")
             if last_item[0] == "key":
                 renpy.jump("keys")
             if last_item[0] == "map_idle":
                 renpy.jump("map")
+            if last_item[0] == "shovel":
+                renpy.jump("digging")
     SelectItem = renpy.curry(SelectItemF)
     def GetFN(index=0):
         global items

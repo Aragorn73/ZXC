@@ -93,9 +93,9 @@ label start:
     $ last_item = None
     show screen inventory
     "А теперь покажу вам как работает инвентарь"
-    $ items.extend([("map_idle", "Карта")])
-    $ items.extend([("key", "Ключ")])
-    $ items.extend([("fising", "Удочка")])
+    #$ items.extend([("map_idle", "Карта")])
+    #$ items.extend([("key", "Ключ")])
+    #$ items.extend([("fising", "Удочка")])
     show screen cheat
     show screen map123
     "Это очень просто, давайте начнем с простого примера "
@@ -103,10 +103,12 @@ label start:
     $ items.extend([("coin", "Денюжка")])
 
 label give:
-    "Сейчас верни ее"
+    "Воспользуйся монетой в своем инвентаре, что бы пополнить баланс"
     jump give
+
 label money:
-    "молодец, ты смог дать мне монетку"
+    "молодец, на твоем счету появилось 100$"
+    $ money += 100
     "отлично теперь вы научились использовать инвентарь"
     "Какое-то событие происходит..."
     "Попробуй за пару секунд распознать, что за созвездие перед тобой."
@@ -190,10 +192,53 @@ label vopros_two:
 label alchemy:
     scene alkhimiya
     with fade
+    al "Приветсвую вас, дорогой покупать!"
+    al "Чем могу помочь?"
     menu:
-        al "Приветсвую вас, дорогой покупать!"
-        "Купить":
+        "Я хотел бы взглянуть на ваш товар":
+            al "Да, конечно"
+            jump alchemy1
+        "Город":
             jump City
+    return
+
+label alchemy1:
+    scene alkhimiya
+    with fade
+    menu:
+        "Удочка    50$":
+            menu:
+                "Купить":
+                    if money >= 50:
+                        $ items.extend([("fising", "Удочка")])
+                        $ money -= 50
+                    else:
+                        al "Эй, сначала деньги!"
+                    jump alchemy1
+                "Отказаться":
+                    jump alchemy1
+        "Лопата    30$":
+            menu:
+                "Купить":
+                    if money >= 30:
+                        $ items.extend([("shovel", "Лопата")])
+                        $ money -= 30
+                    else:
+                        al "Эй, сначала деньги!"
+                    jump alchemy1
+                "Отказаться":
+                    jump alchemy1
+        "Ключ    20$":
+            menu:
+                "Купить":
+                    if money >= 20:
+                        $ items.extend([("key", "Ключ")])
+                        $ money -= 20
+                    else:
+                        al "Эй, сначала деньги!"
+                    jump alchemy1
+                "Отказаться":
+                    jump alchemy1
         "Город":
             jump City
     return
@@ -226,12 +271,12 @@ label City:
     with fade
     menu:
         e "Куда отправиться?"
-        "Алхимия":
+        "Лавка":
             jump alchemy
-        "Провинзия":
-            jump food
-        "Кузня":
-            jump smithy
+        # "Провинзия":
+        #     jump food
+        # "Кузня":
+        #     jump smithy
         "Выйти из города":
             jump map
 
@@ -249,6 +294,17 @@ label map:
 
 #локация петешествие
 
+#копка лопатой
+label digging:
+    scene map1
+    with fade
+    "Выходя из города, Вы решаетесь пойти.."
+    menu:
+        "Вернуться в город":
+            jump City
+        "Отправиться в путь":
+            jump path
+
 
 label path:
     scene les1
@@ -263,8 +319,20 @@ label path:
             jump dungeon
 
         "Пойти порыбачить":
+
             jump StartMiniGame
 
+    return
+
+label path1:
+    scene les1
+    with fade
+    "Воспользуйтесь удочкой":
+        menu:
+            "Пойти порыбачить":
+                jump path1
+            "Отправиться в путь":
+                jump map
     return
 
 label StartMiniGame:
