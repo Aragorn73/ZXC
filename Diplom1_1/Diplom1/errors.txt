@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/powers.rpy", line 97: u'jump' is not a keyword argument or valid child for the hotspot statement.
+    hotspot (0,0,100,100) action jump("map")
+                                     ^
+
+Ren'Py Version: Ren'Py 7.4.11.2266
+Sat Jun  4 12:06:52 2022

@@ -7,8 +7,8 @@ init -2 python:
             renpy.restart_interaction()
             if last_item[0] == "coin":
                 renpy.jump("money")
-            if last_item[0] == "flower":
-                renpy.jump("flower")
+            if last_item[0] == "fising":
+                renpy.jump("fising")
             if last_item[0] == "star":
                 renpy.jump("powers")
             if last_item[0] == "key":
