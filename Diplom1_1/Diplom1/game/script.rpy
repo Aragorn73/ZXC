@@ -393,6 +393,7 @@ label path1:
         "Пойти порыбачить":
             jump path1
         "Отправиться в путь":
+            $ p1 = 0
             jump map
     return
 
