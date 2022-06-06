@@ -343,7 +343,7 @@ label City:
 
     return
 label map:
-    scene map1
+    scene map3
     with fade
     "Выходя из города, Вы решаетесь пойти.."
     menu:
@@ -357,7 +357,7 @@ label map:
 
 #копка лопатой
 label digging:
-    scene map1
+    scene map3
     with fade
     "Выходя из города, Вы решаетесь пойти.."
     menu:
