@@ -95,7 +95,7 @@ label start:
     "А теперь покажу вам как работает инвентарь"
     #$ items.extend([("map_idle", "Карта")])
     #$ items.extend([("key", "Ключ")])
-    #$ items.extend([("fising", "Удочка")])
+    #$ items.extend([("fishing", "Удочка")])
     show screen cheat
     show screen map123
     "Это очень просто, давайте начнем с простого примера "
@@ -210,7 +210,7 @@ label alchemy1:
             menu:
                 "Купить":
                     if money >= 50:
-                        $ items.extend([("fising", "Удочка")])
+                        $ items.extend([("rod", "Удочка")])
                         $ money -= 50
                     else:
                         al "Эй, сначала деньги!"
@@ -269,6 +269,7 @@ label smithy:
 label City:
     scene ploshchad
     with fade
+    $ p1 = 0
     menu:
         e "Куда отправиться?"
         "Лавка":
@@ -319,20 +320,20 @@ label path:
             jump dungeon
 
         "Пойти порыбачить":
-
-            jump StartMiniGame
+            jump path1
 
     return
 
 label path1:
     scene les1
     with fade
-    "Воспользуйтесь удочкой":
-        menu:
-            "Пойти порыбачить":
-                jump path1
-            "Отправиться в путь":
-                jump map
+    $ p1 = 1 #флаг, что мы находимся в локации path
+    "Воспользуйтесь удочкой"
+    menu:
+        "Пойти порыбачить":
+            jump path1
+        "Отправиться в путь":
+            jump map
     return
 
 label StartMiniGame:

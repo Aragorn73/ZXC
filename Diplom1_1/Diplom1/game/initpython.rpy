@@ -8,7 +8,9 @@ init -2 python:
             if last_item[0] == "coin":
                 renpy.jump("money")
             if last_item[0] == "rod":
-                renpy.jump("StartMiniGame")
+                items.extend([("rod", "Удочка")])
+                if p1 == 1:
+                    renpy.jump("StartMiniGame")
             if last_item[0] == "star":
                 renpy.jump("powers")
             if last_item[0] == "key":
