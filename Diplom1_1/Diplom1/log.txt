@@ -1,9 +1,9 @@
-Mon Jun  6 04:31:53 2022
+Mon Jun  6 04:45:13 2022
 Windows-10-10.0.19041
 Ren'Py 7.4.11.2266
  
 
-Bootstrap to the start of init.init took 0.11s
+Bootstrap to the start of init.init took 0.09s
 Early init took 0.00s
 Loader init took 0.03s
 Loading error handling took 0.02s
@@ -30,8 +30,8 @@ Build styles took 0.00s
 Load screen analysis took 0.00s
 Analyze screens took 0.01s
 Save screen analysis took 0.04s
-Prepare screens took 0.08s
-Save pyanalysis. took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.04s
 Save bytecode. took 0.03s
 Running _start took 0.00s
 Performance test:
@@ -47,61 +47,3 @@ Version: '4.6.0 - Build 26.20.100.7262'
 Display Info: None
 Screen sizes: virtual=(1280, 720) physical=(1271, 715) drawable=(1271, 715)
 Maximum texture size: 4096x4096
-
-Full traceback:
-  File "game/script.rpy", line 208, in script
-    menu:
-  File "renpy/ast.py", line 1688, in execute
-    choice = renpy.exports.menu(choices, self.set, args, kwargs, item_arguments)
-  File "renpy/exports.py", line 1060, in menu
-    rv = renpy.store.menu(new_items)
-  File "renpy/exports.py", line 1296, in display_menu
-    rv = renpy.ui.interact(mouse='menu', type=type, roll_forward=roll_forward)
-  File "renpy/ui.py", line 298, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "renpy/display/core.py", line 3325, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, **kwargs)
-  File "renpy/display/core.py", line 4160, in interact_core
-    rv = root_widget.event(ev, x, y, 0)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/screen.py", line 727, in event
-    rv = self.child.event(ev, x, y, st)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/layout.py", line 1323, in event
-    rv = super(Window, self).event(ev, x, y, st)
-  File "renpy/display/layout.py", line 273, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/viewport.py", line 299, in event
-    rv = super(Viewport, self).event(ev, x, y, st)
-  File "renpy/display/layout.py", line 273, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "renpy/display/layout.py", line 1102, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "renpy/display/behavior.py", line 983, in event
-    return handle_click(self.clicked)
-  File "renpy/display/behavior.py", line 918, in handle_click
-    rv = run(action)
-  File "renpy/display/behavior.py", line 330, in run
-    return action(*args, **kwargs)
-  File "renpy/curry.py", line 48, in __call__
-    return self.callable(*(self.args + args), **merged_kwargs)
-  File "game/initpython.rpy", line 12, in SelectItemF
-    if p1 == 1:
-NameError: global name 'p1' is not defined
-
-While running game code:
-  File "game/script.rpy", line 208, in script
-    menu:
-  File "game/initpython.rpy", line 12, in SelectItemF
-    if p1 == 1:
-NameError: global name 'p1' is not defined
