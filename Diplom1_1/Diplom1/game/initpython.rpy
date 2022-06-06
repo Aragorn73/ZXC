@@ -19,6 +19,14 @@ init -2 python:
                 renpy.jump("map")
             if last_item[0] == "shovel":
                 renpy.jump("digging")
+            #рыбы
+            if last_item[0] == "fish1":
+                renpy.jump("YouWin")
+            if last_item[0] == "fish2":
+                renpy.jump("YouWin")
+
+
+
     SelectItem = renpy.curry(SelectItemF)
     def GetFN(index=0):
         global items

@@ -198,6 +198,9 @@ label alchemy:
         "Я хотел бы взглянуть на ваш товар":
             al "Да, конечно"
             jump alchemy1
+        "Хотел кое-что продать":
+            al "Да, конечно"
+            jump alchemy2
         "Город":
             jump City
     return
@@ -239,9 +242,66 @@ label alchemy1:
                     jump alchemy1
                 "Отказаться":
                     jump alchemy1
+        "Вернуться обратно":
+            jump alchemy3
+    return
+#Продажа
+label alchemy2:
+    scene alkhimiya
+    with fade
+    menu:
+        "Лосось    10$":
+            menu:
+                "Продать":
+                    $ money += 10
+                    jump alchemy2
+                "Отказаться":
+                    jump alchemy2
+        "Карп    15$":
+            menu:
+                "Продать":
+                    $ money += 15
+                "Отказаться":
+                    jump alchemy2
+
+        "Удочка    15$":
+            menu:
+                "Продать":
+                    $ money += 15
+                    jump alchemy2
+                "Отказаться":
+                    jump alchemy2
+        "Лопата    15$":
+            menu:
+                "Продать":
+                    $ money+= 15
+                    jump alchemy2
+                "Отказаться":
+                    jump alchemy2
+        "Ключ    10$":
+            menu:
+                "Продать":
+                    $ money += 10
+                    jump alchemy2
+                "Отказаться":
+                    jump alchemy2
+        "Вернуться обратно":
+            jump alchemy3
+    return
+# алхимия выбор купить/продать
+label alchemy3:
+    scene alkhimiya
+    with fade
+    menu:
+        "Я хотел бы взглянуть на ваш товар":
+            al "Да, конечно"
+            jump alchemy1
+        "Хотел кое-что продать":
+            al "Да, конечно"
+            jump alchemy2
         "Город":
             jump City
-    return
+
 
 #Пекарня
 label food:

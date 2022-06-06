@@ -147,16 +147,18 @@ screen Fish_Free:
 
 label YouLose:
     window show
-    "YouLose"
+    "Рыба сорвалась"
     window hide
+    jump path1
     return
 
 label YouWin:
-    $ TypeFish = renpy.random.choice(["Лосось", "Карп", "Сайга", "Рыба Ёж"])
+    $ TypeFish = renpy.random.choice(["Лосось", "Карп"])
     window show
     "[TypeFish]"
     window hide
     $ renpy.pause(2, hard=True)
+    $ items.extend([("fish1", "Лосось")])
     jump path
     return
 
@@ -164,5 +166,3 @@ label BrokenFish_End:
     "Рыба сорвалась"
     window hide
     return
-#Мини Игру написал DarkSoulHero
-#Что делать с этой информацией решать вам
