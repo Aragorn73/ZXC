@@ -44,9 +44,19 @@ label guessthesequence: #сейчас ввод команд игрока, что
         jump looser
 label winner:#в messagge для определения победы
     "Ты выиграл!"
+    menu:
+        "Пройти внутрь":
+            jump dangeon1
+        "Вернуться":
+            jump dangeon
     return
 label looser: #сообщение
     "Ты проиграл!"
+    menu:
+        "Повторить попытку":
+            jump blink
+        "Вернуться":
+            jump dangeon
     return
 
 
@@ -101,6 +111,11 @@ screen racetheclock(goquick):
 
 label too_slow:
     "Время вышло!"
+    menu:
+        "Повторить попытку":
+            jump blink
+        "Вернуться":
+            jump dangeon
     return
 
 
