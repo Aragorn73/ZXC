@@ -11,14 +11,15 @@ init -2 python:
                 items.extend([("rod", "Удочка")])
                 if p1 == 1:
                     renpy.jump("StartMiniGame")
-            if last_item[0] == "star":
-                renpy.jump("powers")
             if last_item[0] == "key":
-                renpy.jump("keys")
+                if p3 ==1:
+                    renpy.jump("digging5")
             if last_item[0] == "map_idle":
                 renpy.jump("map")
             if last_item[0] == "shovel":
-                renpy.jump("digging")
+                items.extend([("shovel", "Лопата")])
+                if p2 ==1:
+                    renpy.jump("digging2")
             #рыбы
             if last_item[0] == "fish1":
                 renpy.jump("YouWin")

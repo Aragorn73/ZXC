@@ -1,7 +1,7 @@
 # Определение персонажей игры.
 define e = Character('Я', color="#00BFFF", image='anton')
 define q = Character("[name]")
-define al = Character('Алхимик', color='#FFA500')
+define al = Character('Торговец', color='#FFA500')
 define k = Character("Кузнец", color='#FFA500')
 define pek = Character("Пекарня", color='#FFA500')
 
@@ -13,6 +13,9 @@ define pek = Character("Пекарня", color='#FFA500')
     #
     #
     #
+define audio.fon_menu = "audio/fon_menu.ogg"
+define audio.les = "audio/fon_menu.ogg"
+# define audio.antasy. = "audio/antasy.ogg"
 
 # мини игры разпознайка
 screen t:
@@ -41,12 +44,31 @@ screen galaxy:
             text"*" xpos 274 ypos 282
             text"*" xpos 385 ypos 257
             text"*" xpos 358 ypos 312
-#screen room:
+screen map12:
     #выделение объекта
-#    imagemap:
-#        hover 'images/room/my_room1_hover.jpg'
-#        idle 'images/room/my_room1_idle.jpg'
-#        hotspot (570,577,795,255) action Jump('corridor')
+    imagemap:
+        hover 'images/mapp_hover.png'
+        idle 'images/mapp_idle.png'
+        hotspot (450,260,100,100) action Jump('City')
+        hotspot (450,495,650,100) action Jump('path1')
+        hotspot (670,77,240,240) action Jump('digging')
+#### сундук
+screen chest2:
+    imagemap:
+        hover 'images/chest21.png'
+        idle 'images/chest2.png'
+        hotspot (200,145,905,520) action Jump('digging3')
+screen chest3:
+    imagemap:
+        hover 'images/chest31.png'
+        idle 'images/chest3.png'
+        hotspot (196,258,962,500) action Jump('digging4')
+# screen chest4:
+#     imagemap:
+#         hover 'images/chest41.png'
+#         idle 'images/chest4.png'
+#         hotspot (450,260,100,100) action Jump('digging4')
+#####
 init:
     image home="room/home1.jpg"
     image corr="room/corridor1.jpg"
@@ -82,6 +104,7 @@ label start:
     "Добро пожалоть в визуальную новеллу"
 #    show screen button
     "Вступление...."
+    # stop fadeout 1
     scene les with dissolve #плавный переход
     "Вашего главного героя зовут Антон, то вы можете поменять его имя"
     python:
@@ -92,12 +115,12 @@ label start:
     e smile "Я ваш главный персонаж"
     $ last_item = None
     show screen inventory
+    show screen cheat
+    show screen map123
     "А теперь покажу вам как работает инвентарь"
     #$ items.extend([("map_idle", "Карта")])
     #$ items.extend([("key", "Ключ")])
     #$ items.extend([("fishing", "Удочка")])
-    show screen cheat
-    show screen map123
     "Это очень просто, давайте начнем с простого примера "
     "Давай я дам тебе денежку"
     $ items.extend([("coin", "Денюжка")])
@@ -107,9 +130,11 @@ label give:
     jump give
 
 label money:
-    "молодец, на твоем счету появилось 100$"
     $ money += 100
-    "отлично теперь вы научились использовать инвентарь"
+    "Молодец, на твоем счету появилось 100$"
+    "Отлично теперь вы научились использовать инвентарь"
+    "Теперь перейдет к следующему этапу..."
+    "Начало сюжетной линии."
     "Какое-то событие происходит..."
     "Попробуй за пару секунд распознать, что за созвездие перед тобой."
     scene frame1 with dissolve
@@ -163,7 +188,7 @@ label two:
     hide medvidisa
     hide dielebed
     "Попробуй за пару секунд распознать, что за созвездие перед тобой."
-    $t = 3
+    $t = 2
     $ labell = "vopros_two"
     show screen galaxy
     "Время пошло!"
@@ -292,6 +317,7 @@ label alchemy2:
 label alchemy3:
     scene alkhimiya
     with fade
+    $ p3 = 0
     menu:
         "Я хотел бы взглянуть на ваш товар":
             al "Да, конечно"
@@ -303,30 +329,31 @@ label alchemy3:
             jump City
 
 
-#Пекарня
-label food:
-    scene pekarnya
-    with fade
-    menu:
-        pek "Приветсвую вас, дорогой покупать!"
-        "Купить":
-            jump City
-        "Город":
-            jump City
-    return
-#Кузня
-label smithy:
-    scene kuznya
-    with fade
-    menu:
-        k "Приветсвую вас, дорогой покупать!"
-        "Купить":
-            jump City
-        "Город":
-            jump City
-    return
+# #Пекарня
+# label food:
+#     scene pekarnya
+#     with fade
+#     menu:
+#         pek "Приветсвую вас, дорогой покупать!"
+#         "Купить":
+#             jump City
+#         "Город":
+#             jump City
+#     return
+# #Кузня
+# label smithy:
+#     scene kuznya
+#     with fade
+#     menu:
+#         k "Приветсвую вас, дорогой покупать!"
+#         "Купить":
+#             jump City
+#         "Город":
+#             jump City
+#     return
 #локация город
 label City:
+    hide screen map12
     scene ploshchad
     with fade
     $ p1 = 0
@@ -343,57 +370,95 @@ label City:
 
     return
 label map:
-    scene map3
-    with fade
-    "Выходя из города, Вы решаетесь пойти.."
-    menu:
-        "Вернуться в город":
-            jump City
-        "Отправиться в путь":
-            jump path
+    $ p1 = 0
+    $ p2 = 0
+    $ p3 = 0
+    hide les1
+    hide anton smile
+    show mapp_idle
+    show screen map12
+    show screen cheat
+    show screen map123
+    "Куда же пойти.."
+    jump map
 
 
-#локация петешествие
 
 #копка лопатой
 label digging:
-    scene map3
+    hide screen map12
+    scene chest1
     with fade
-    "Выходя из города, Вы решаетесь пойти.."
+    $ p2 = 1
     menu:
-        "Вернуться в город":
-            jump City
-        "Отправиться в путь":
-            jump path
-
-
-label path:
-    scene les1
-    with fade
-    "Вы слышите какие-то от попутчиков истории..."
-    "некоторое время вы приезжаете к месту назначения"
-    "Видите неподалеку подземелье"
-    menu:
-        e "Вот оно, как искатель приключений, это прибыльное дело"
-
-        "Зайти внутрь":
-            jump dungeon
-
-        "Пойти порыбачить":
-            jump path1
-
+        "Воспользуйтесь Лопатой"
+        "Вернуться в глобольную карту":
+            jump map
     return
 
-label path1:
-    scene les1
+label digging2:
+    show screen chest2
     with fade
+    "Нажмите на эту местность"
+    jump digging2
+    return
+
+label digging3:
+    hide screen chest2
+    show screen chest3
+    with fade
+    "Интересно, что мы там найдем?"
+    jump digging3
+    return
+
+label digging4:
+    hide screen chest3
+    show chest4
+    with fade
+    $ p3 = 1
+    menu:
+        "Воспользуйтесь ключом"
+        "Вернуться в глобольную карту":
+            jump map
+    return
+label digging5:
+    hide screen chest4
+    show chest5
+    with fade
+    $ money += 1000
+    "Вы открыли сундук и вам прибавилось 1000$"
+    menu:
+        "Вернуться в глобольную карту":
+            jump map
+    return
+
+#локация петешествие
+# label path:
+#     scene les1 with dissolve
+#     #with fade
+#     "Вы слышите какие-то от попутчиков истории..."
+#     "некоторое время вы приезжаете к месту назначения"
+#     "Видите неподалеку подземелье"
+#     menu:
+#         e "Вот оно, как искатель приключений, это прибыльное дело"
+#
+#         "Зайти внутрь":
+#             jump dungeon
+#
+#         "Пойти порыбачить":
+#             jump path1
+#
+#     return
+
+label path1:
+    hide screen map12
+    scene les1 with fade
+
+
     $ p1 = 1 #флаг, что мы находимся в локации path
     "Воспользуйтесь удочкой"
     menu:
-        "Пойти порыбачить":
-            jump path1
         "Отправиться в путь":
-            $ p1 = 0
             jump map
     return
 
@@ -405,30 +470,30 @@ label StartMiniGame:
         jump start
 
 
-label dungeon:
-    scene podzemelye
-    with dissolve
-    "Заходите все глубже и глубже вы замечаете стая волков."
-    "Подходя еще ближе, вас замечают и начинается битва."
-    "После долгой битвы вы одолеваете их. После ненадолгой передышки вы решаетесь отправиться дальше"
-    menu:
+# label dungeon:
+#     scene podzemelye
+#     with dissolve
+#     "Заходите все глубже и глубже вы замечаете стая волков."
+#     "Подходя еще ближе, вас замечают и начинается битва."
+#     "После долгой битвы вы одолеваете их. После ненадолгой передышки вы решаетесь отправиться дальше"
+#     menu:
+#
+#         "подземелье 2 уроня":
+#             jump dungeon2
+#     return
 
-        "подземелье 2 уроня":
-            jump dungeon2
-    return
-
-label dungeon2:
-    scene podzemelye with dissolve
-
-    "Видите босса подземелье"
-    " и пытаетесь сразиться с ним"
-    "..."
-    "Вы с чудом одолеваете босса и забираете сокривища"
-    menu:
-        "Оказалась славная битва"
-        "Вернуть в город":
-            jump City2
-    return
+# label dungeon2:
+#     scene podzemelye with dissolve
+#
+#     "Видите босса подземелье"
+#     " и пытаетесь сразиться с ним"
+#     "..."
+#     "Вы с чудом одолеваете босса и забираете сокривища"
+#     menu:
+#         "Оказалась славная битва"
+#         "Вернуть в город":
+#             jump City2
+#     return
 label City2:
     scene ploshchad
     with fade

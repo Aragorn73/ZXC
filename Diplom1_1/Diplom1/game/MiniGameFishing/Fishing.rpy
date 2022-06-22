@@ -153,16 +153,19 @@ label YouLose:
     return
 
 label YouWin:
-    $ TypeFish = renpy.random.choice(["Лосось", "Карп"])
+    $ fish1 = ["Лосось", "fish1"]
+    $ fish2 = ["Карп", "fish2"]
+    $ TypeFish = renpy.random.choice([fish1, fish2])
     window show
-    "[TypeFish]"
+    "[TypeFish[0]]"
     window hide
     $ renpy.pause(2, hard=True)
-    $ items.extend([("fish1", "Лосось")])
-    jump path
+    $ items.extend([(TypeFish[1], TypeFish[0])])
+    jump path1
     return
 
 label BrokenFish_End:
     "Рыба сорвалась"
     window hide
+    jump path1
     return

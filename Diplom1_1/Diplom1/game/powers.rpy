@@ -84,7 +84,6 @@ init:
 
 
 screen map123:
-    $ p1 = 0
     text "Карта" align(.87, .13)
     frame:
 

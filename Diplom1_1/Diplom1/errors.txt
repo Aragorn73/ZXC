@@ -2,9 +2,13 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 383: else clause expects a non-empty block.
-    else:
-         ^
+File "game/MiniGameFishing/Fishing.rpy", line 156: expected statement.
+    fish1 = ["Карп", "fish1"]
+          ^
+
+File "game/MiniGameFishing/Fishing.rpy", line 157: expected statement.
+    fish2 = ["Лосось", "fish2"]
+          ^
 
 Ren'Py Version: Ren'Py 7.4.11.2266
-Mon Jun  6 04:22:23 2022
+Mon Jun 20 00:25:17 2022
