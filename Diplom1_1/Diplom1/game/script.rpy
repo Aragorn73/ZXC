@@ -101,6 +101,7 @@ image menu_slideshow:
 #######################################
 
 label start:
+    $qwest = 0 #квест не взят и не выполнен
     "Добро пожалоть в визуальную новеллу"
 #    show screen button
     "Вступление...."
@@ -214,10 +215,18 @@ label vopros_two:
 
 
 #Алхимия
-label alchemy:
+label alchemy0:
     scene alkhimiya
     with fade
     al "Приветсвую вас, дорогой покупать!"
+    jump alchemy
+    return
+
+label alchemy:
+    scene alkhimiya
+    with fade
+    $text_qwest11 = "В пещере за озером растет одно редкое растение, оно необходимо мне для изготовления тайного зелья, исцеляющего недуг моего сына. Если ты принесешь мне его, я расскажу тебе где спрятан сундук с добром одного нашего бывшего мера, и даже случайно у меня завалялся ключ от этого сундка."
+    $text_qwest12 = "Но вход в эту пещеру запечатан, тебе придется найти способ попасть внутрь."
     al "Чем могу помочь?"
     menu:
         "Я хотел бы взглянуть на ваш товар":
@@ -226,6 +235,42 @@ label alchemy:
         "Хотел кое-что продать":
             al "Да, конечно"
             jump alchemy2
+        "Есть ли у вас какая-нибудь роботенка для меня?":
+            if qwest == 0:
+                al "Хмм..."
+                al "Дай ка подумать"
+                al "Есть одно дельце, если ты готов"
+                e "Рассказывай"
+                al "[text_qwest11]"
+                al "[text_qwest12]"
+                al "Ну что, ты согласен?"
+                menu:
+                    "Хорошо, я принесу тебе это растение":
+                        al "Хорошо, надеюсь, ты записал все в свой журнал, чтобы не перишлось спрашивать меня по 30 раз."
+                        $qwest = 1
+                        #Добавление в журнал
+                        jump alchemy
+                    "Нет, я еще не готов":
+                        al "Слабак..."
+                        jump alchemy
+            elif qwest == 1:
+                al "Ты уже сделал то, о чем я тебя просил?"
+                menu:
+                    "Еще нет, я в процессе":
+                        al "Скорее бы уже"
+                        jump alchemy
+                    "Напомни, что нужно было сделать":
+                        al "[text_qwest11]"
+                        al "[text_qwest12]"
+                        jump alchemy
+                    "Боюсь, я не смогу выполнить твою просьбу":
+                        al "Очень жаль"
+                        $qwest = 0
+                        jump alchemy
+            elif qwest == 2:
+                al "Пока ничего нет, заходи в следующий раз"
+                jump alchemy
+
         "Город":
             jump City
     return
@@ -251,6 +296,7 @@ label alchemy1:
                     if money >= 30:
                         $ items.extend([("shovel", "Лопата")])
                         $ money -= 30
+                        $p3 = 0
                     else:
                         al "Эй, сначала деньги!"
                     jump alchemy1
@@ -268,7 +314,7 @@ label alchemy1:
                 "Отказаться":
                     jump alchemy1
         "Вернуться обратно":
-            jump alchemy3
+            jump alchemy1
     return
 #Продажа
 label alchemy2:
@@ -311,22 +357,22 @@ label alchemy2:
                 "Отказаться":
                     jump alchemy2
         "Вернуться обратно":
-            jump alchemy3
+            jump alchemy1
     return
 # алхимия выбор купить/продать
-label alchemy3:
-    scene alkhimiya
-    with fade
-    $ p3 = 0
-    menu:
-        "Я хотел бы взглянуть на ваш товар":
-            al "Да, конечно"
-            jump alchemy1
-        "Хотел кое-что продать":
-            al "Да, конечно"
-            jump alchemy2
-        "Город":
-            jump City
+# label alchemy3:
+#     scene alkhimiya
+#     with fade
+#     $ p3 = 0
+#     menu:
+#         "Я хотел бы взглянуть на ваш товар":
+#             al "Да, конечно"
+#             jump alchemy1
+#         "Хотел кое-что продать":
+#             al "Да, конечно"
+#             jump alchemy2
+#         "Город":
+#             jump City
 
 
 # #Пекарня
@@ -360,7 +406,7 @@ label City:
     menu:
         e "Куда отправиться?"
         "Лавка":
-            jump alchemy
+            jump alchemy0
         # "Провинзия":
         #     jump food
         # "Кузня":
@@ -433,7 +479,7 @@ label digging5:
     return
 
 #локация петешествие
-# label path:
+# label :
 #     scene les1 with dissolve
 #     #with fade
 #     "Вы слышите какие-то от попутчиков истории..."
@@ -449,7 +495,29 @@ label digging5:
 #             jump path1
 #
 #     return
+label dangeon:
+    #hide screen map12
+    scene podzemelye1 with fade
 
+    "Видите неподалеку пещеру"
+    е "Должно быть, это то место, о котором говорил алхимик. Но вход завален, как же пробраться внутрь..."
+    "Вы замечаете небольшую впадину, а за ней каменная дверь, на ней изображены странные символы, но их можно перемещать"
+    menu:
+        "Подойти и попробовать открыть вход":
+        e "Ну что ж, попробуем"
+            jump # pazzle
+
+        "Вернуться к озеру":
+            jump path1
+
+    return
+
+label StartPuzzles:
+    $ FishUp = renpy.random.randint(30,50) #Отвечает за то откуда рыба начнет
+    show screen Fish_Up
+    call screen MiniGameFish
+    if _return == "EndMiniGame":
+        jump start
 label path1:
     hide screen map12
     scene les1 with fade
@@ -458,7 +526,9 @@ label path1:
     $ p1 = 1 #флаг, что мы находимся в локации path
     "Воспользуйтесь удочкой"
     menu:
-        "Отправиться в путь":
+        "Подойти к пещере":
+            jump dangeon
+        "Вернуться к глобалной карте":
             jump map
     return
 

@@ -2,13 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/MiniGameFishing/Fishing.rpy", line 156: expected statement.
-    fish1 = ["Карп", "fish1"]
-          ^
-
-File "game/MiniGameFishing/Fishing.rpy", line 157: expected statement.
-    fish2 = ["Лосось", "fish2"]
-          ^
+File "game/script.rpy", line 506: choice menuitem expects a non-empty block.
+    "Подойти и попробовать открыть вход":
+                                         ^
 
 Ren'Py Version: Ren'Py 7.4.11.2266
-Mon Jun 20 00:25:17 2022
+Thu Jun 23 01:50:30 2022

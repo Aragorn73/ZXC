@@ -1,0 +1,114 @@
+﻿label simongame (difficulty=0, endgame=0,goquick=0):
+    #this is a coding of old SIMON sequence game.
+    #At first, determine some variable and reset counters.
+    $ sequence=[] #the sequence to reply.
+    $ nowpush=0 #the sequence iterator
+    $ thecolor=0#the button you have to push.
+   
+label turnsequence: #now, call the randomizer to add signs.
+    python:
+        for i in range (0,difficulty):
+            added=renpy.random.randint(0,3)
+            sequence.append(added)
+    $nowpush=0
+   
+label showthesequence: #now, show the screen that display the sequence
+    if nowpush==len(sequence):
+        jump theguessin #jump away if the sequence is complete
+    show screen voidgame
+    $ renpy.pause(0.5,hard=True)
+    show screen displaysequence
+    hide screen voidgame
+    $ renpy.pause(0.5,hard=True)
+    if nowpush< len(sequence):
+        $ nowpush+=1
+    jump showthesequence
+
+label theguessin: #this label prepare the screen, hiding what's left from previous
+    $ nowpush=0
+    hide screen displaysequence
+    #Now, call the screen for player input
+    $ nowpush=0
+label guessthesequence:  #now have the player input commands to repeat the sequence
+    if nowpush==len(sequence):
+        jump turnsequence #if complete, redo from start
+    call screen inputcolor
+    $ myguess=_return #that's the button you pressed
+    $ theright =sequence[nowpush] #that's the correct button to push at the moment
+    if theright==myguess:
+        $nowpush+=1
+        if nowpush==(endgame):
+            jump winner
+        jump guessthesequence
+    if theright!=myguess:
+        jump looser
+label winner: #a messagge to define victory
+    "You win!"
+    return
+label looser: #a message
+    "You loose!"
+    return
+
+   
+screen displaysequence:
+    grid 2 2:
+        xalign 0.5
+        yalign 0.5
+        spacing 5
+        if sequence[nowpush]==0:
+            add "redon.png"
+        else:
+            add "buttonoff.png"
+        if sequence[nowpush]==1:
+            add "blueon.png"
+        else:
+            add "buttonoff.png"
+        if sequence[nowpush]==2:
+            add "greenon.png"
+        else:
+            add "buttonoff.png"
+        if sequence[nowpush]==3:
+            add "yellowon.png"
+        else:
+            add "buttonoff.png"
+screen voidgame:
+    grid 2 2:
+        xalign 0.5
+        yalign 0.5
+        spacing 5
+        add "buttonoff.png"
+        add "buttonoff.png"
+        add "buttonoff.png"
+        add "buttonoff.png"
+   
+screen inputcolor:
+    use racetheclock(goquick) #this is a moving bar, so techie!
+    text "Your turn" xalign 0.5 yalign 0.9
+    grid 2 2:
+        xalign 0.5
+        yalign 0.5
+        spacing 5
+        imagebutton idle "buttonoff.png" hover "redon.png" action Return(0)
+        imagebutton idle "buttonoff.png" hover "blueon.png" action Return(1)
+        imagebutton idle "buttonoff.png" hover "greenon.png" action Return(2)
+        imagebutton idle "buttonoff.png" hover "yellowon.png" action Return(3)
+       
+
+screen racetheclock(goquick):
+    $ mytime=AnimatedValue(value=10.0, range=10.0, delay=goquick, old_value=0.0)
+    bar value mytime xalign 0.5 yalign 0.1 xsize 500
+    timer goquick action Jump("too_slow")
+   
+label too_slow:
+    "Out of time!"
+    return
+    
+   
+
+
+# Игра начинается здесь.
+label start:
+    "rfr"
+    jump simongame
+
+    return
