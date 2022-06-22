@@ -505,19 +505,40 @@ label dangeon:
     menu:
         "Подойти и попробовать открыть вход":
         e "Ну что ж, попробуем"
-            jump # pazzle
+            jump blink
 
         "Вернуться к озеру":
             jump path1
 
     return
 
-label StartPuzzles:
-    $ FishUp = renpy.random.randint(30,50) #Отвечает за то откуда рыба начнет
-    show screen Fish_Up
-    call screen MiniGameFish
-    if _return == "EndMiniGame":
-        jump start
+label dungeon1:
+    scene podzemelye
+    with dissolve
+    "Заходите все глубже и глубже вы замечаете стаю волков."
+    "Подходя еще ближе, вас замечают, и начинается битва."
+    "После долгой битвы вы одолеваете их. После ненадолгой передышки вы решаетесь отправиться дальше"
+    menu:
+
+        "подземелье 2 уроня":
+            jump dungeon2
+    return
+
+label dungeon2:
+    scene podzemelye with dissolve
+
+    "На середине залитой странным светом комнаты вы замечете необычный цветок"
+    e "это то, что мне нужно!"
+    "..."
+    "Вы подходите ближе..."
+    menu:
+        "Сорвать цветок":
+            "Свет в комнате резко гаснет, а пол и стены пещеры начинает трясти"
+            "Вам ничего"
+        "Вернуть в город":
+            jump City2
+    return
+
 label path1:
     hide screen map12
     scene les1 with fade
