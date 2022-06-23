@@ -12,7 +12,9 @@ init -2 python:
                 if p1 == 1:
                     renpy.jump("StartMiniGame")
             if last_item[0] == "key":
-                if p3 ==1:
+                if p3 ==0:
+                    items.extend([("key", "Ключ")])
+                if p3 == 1:
                     renpy.jump("digging5")
             if last_item[0] == "map_idle":
                 renpy.jump("map")
@@ -27,7 +29,9 @@ init -2 python:
                 renpy.jump("YouWin")
             #цветок
             if last_item[0] == "flower":
-                if cv ==1:
+                if cv ==0:
+                    items.extend([("flower", "Цветок")])
+                if cv == 1:
                     renpy.jump("qwest_coplete")
 
 

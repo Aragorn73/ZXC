@@ -37,6 +37,7 @@ init python:
     MessageOff = renpy.curry(messageOff)
 # этот экран ждет нажатия кнопки табуляции
 screen cheat:
+    zorder 111
     key "K_F2" action Show("input_scr")
     # индикатор денюжек
     text "$" + str(money) align(.05, .15)

@@ -2,13 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 52: u'hide' is not a keyword argument or valid child for the hotspot statement.
-    hotspot (450,260,100,100) action Jump('City'), hide screen map12
-                                                       ^
-
-File "game/script.rpy", line 60: u'hide' is not a keyword argument or valid child for the hotspot statement.
-    hotspot (450,260,100,100) action Jump('City'), hide screen map11
-                                                       ^
+File "game/script.rpy", line 297: expected 'word' not found.
+    default:
+           ^
 
 Ren'Py Version: Ren'Py 7.4.11.2266
-Thu Jun 23 04:25:40 2022
+Fri Jun 24 03:06:48 2022

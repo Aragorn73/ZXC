@@ -1,26 +1,67 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-While running game code:
-ScriptError: Name (u'game/powers.rpy', 1654061769, 10) is defined twice, at game/money/map.rpy:2 and game/powers.rpy:75.
+While processing the color property of anonymous style:
+  File "game/script.rpy", line 439, in script
+    menu:
+Exception: Color string u'black' must be 3, 4, 6, or 8 hex digits long.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "renpy/bootstrap.py", line 331, in bootstrap
-    renpy.main.main()
-  File "renpy/main.py", line 492, in main
-    renpy.game.script.load_script() # sets renpy.game.script.
-  File "renpy/script.py", line 283, in load_script
-    self.load_appropriate_file(".rpyc", ".rpy", dir, fn, initcode)
-  File "renpy/script.py", line 797, in load_appropriate_file
-    self.finish_load(stmts, initcode, filename=lastfn)
-  File "renpy/script.py", line 473, in finish_load
-    check_name(node)
-  File "renpy/script.py", line 452, in check_name
-    bad_node.filename, bad_node.linenumber))
-ScriptError: Name (u'game/powers.rpy', 1654061769, 10) is defined twice, at game/money/map.rpy:2 and game/powers.rpy:75.
+  File "game/script.rpy", line 439, in script
+    menu:
+  File "renpy/ast.py", line 1688, in execute
+    choice = renpy.exports.menu(choices, self.set, args, kwargs, item_arguments)
+  File "renpy/exports.py", line 1060, in menu
+    rv = renpy.store.menu(new_items)
+  File "renpy/exports.py", line 1296, in display_menu
+    rv = renpy.ui.interact(mouse='menu', type=type, roll_forward=roll_forward)
+  File "renpy/ui.py", line 298, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "renpy/display/core.py", line 3325, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, **kwargs)
+  File "renpy/display/core.py", line 3737, in interact_core
+    root_widget.visit_all(lambda i : i.per_interact())
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/screen.py", line 441, in visit_all
+    self.child.visit_all(callback, seen=None)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 568, in visit_all
+    d.visit_all(callback, seen)
+  File "renpy/display/core.py", line 570, in visit_all
+    callback(self)
+  File "renpy/display/core.py", line 3737, in <lambda>
+    root_widget.visit_all(lambda i : i.per_interact())
+  File "renpy/text/text.py", line 1722, in per_interact
+    if self.style.slow_abortable:
+  File "gen-static/styleclass.pxi", line 773, in renpy.styledata.styleclass.Style.slow_abortable.__get__
+  File "style.pyx", line 493, in renpy.style.StyleCore._get
+  File "style.pyx", line 709, in renpy.style.build_style
+  File "style.pyx", line 706, in renpy.style.build_style
+  File "gen-static/style_functions.pyx", line 772, in style_functions.color_property
+  File "renpy/color.py", line 165, in __new__
+    raise Exception("Color string {!r} must be 3, 4, 6, or 8 hex digits long.".format(c))
+Exception: Color string u'black' must be 3, 4, 6, or 8 hex digits long.
 
 Windows-10-10.0.19041
 Ren'Py 7.4.11.2266
 Diplom1 1.0
-Thu Jun 23 11:30:29 2022
+Fri Jun 24 02:19:21 2022

@@ -112,6 +112,9 @@ label start:
     $qwest = 0 #квест не взят и не выполнен
     $cvetok = 0 #цветка нет
     $dang = 0 #пещера цела
+    $p1 = 0 #удочка
+    $p2 = 0 #лопата
+    $p3 = 0 #ключ
     $cv = 0 #цветок заблокирован
     "Добро пожалоть в визуальную новеллу"
 #    show screen button
@@ -230,6 +233,8 @@ label alchemy0:
     scene alkhimiya
     with fade
     al "Приветсвую вас, дорогой покупать!"
+    $p3 = 0 #ключ
+    $cv = 0 #цветок заблокирован
     jump alchemy
     return
 
@@ -289,7 +294,7 @@ label alchemy:
                         $qwest = 0
                         jump alchemy
 
-            if qwest == 3:
+            if qwest == 3 or qwest == 4 or qwest == 5:
                 al "Пока ничего нет, заходи в следующий раз"
                 jump alchemy
 
@@ -386,9 +391,11 @@ label alchemy2:
     return
 
 label qwest_coplete:
-    $qwest = 3
     al "Держи ключь от сундука, а так же я пометил место, где его искать, на твоей карте. Но для начала тебе понадобиться лопата, ты можешь приобрести ее у меня."
     $ items.extend([("key", "Ключ")])
+    $p3 = 0 #ключ
+    $cv = 0 #цветок заблокирован
+    $qwest = 3
     jump alchemy
 
 # алхимия выбор купить/продать
@@ -451,18 +458,22 @@ label City:
 label map:
     $ p1 = 0
     $ p2 = 0
-    $ p3 = 0
-    hide les1
+    $p3 = 0 #ключ
+    $cv = 0 #цветок заблокирован
+    # hide les1
     hide anton smile
+    scene mapp_idle
+    with fade
     show mapp_idle
     if qwest == 3:
         show screen map11
     else:
         show screen map12
-    #show screen cheat
+    show screen cheat
     #show screen map123
     "Куда же пойти.."
-    jump map
+    # jump map
+    $renpy.pause(delay=None, hard=True)
 
 
 
@@ -499,6 +510,7 @@ label digging4:
     show chest4
     with fade
     $ p3 = 1
+    $qwest = 4
     menu:
         "Воспользуйтесь ключом"
         "Вернуться в глобольную карту":
@@ -509,6 +521,7 @@ label digging5:
     show chest5
     with fade
     $ money += 1000
+    $qwest = 5
     "Вы открыли сундук и вам прибавилось 1000$"
     menu:
         "Вернуться в глобольную карту":
@@ -558,7 +571,7 @@ label dangeon1:
     with dissolve
     "Заходите все глубже и глубже вы замечаете стаю волков."
     "Подходя еще ближе, вас замечают, и начинается битва."
-    $result = renpy.random.randint(0,1)
+    $result = renpy.random.randint(1,1)
     if result == 0:
         "Волки постепенно одолевают вас. Последнее, что вы видите, это их свирепык морды. Кажется, это конец..."
         return
@@ -583,6 +596,8 @@ label dungeon2:
             $qwest = 2
             $ items.extend([("flower", "Цветок")])
             $dang = 1 #пещера разрушена
+            $p3 = 0 #ключ
+            $cv = 0 #цветок заблокирован
             "Свет в комнате резко гаснет, а пол и стены пещеры начинает трясти"
             "Вам ничего не остается, как бежать, сломя голову к выходу..."
             jump path1
@@ -598,8 +613,8 @@ label path1:
     hide screen map12
     hide screen map11
     scene les1 with fade
-
-
+    $p3 = 0 #ключ
+    $ cv = 0 #цветок заблокирован
     $ p1 = 1 #флаг, что мы находимся в локации path
     "Вы добрались до озера"
     menu:
