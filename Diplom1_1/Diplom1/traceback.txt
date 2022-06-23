@@ -1,24 +1,30 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 232, in script
-    if $qwest == 0:
-SyntaxError: invalid syntax (script.rpy, line 232)
+  File "game/blink/script.rpy", line 127, in script call
+    call simongame pass (difficulty=1,endgame=4,goquick=5)
+  File "game/blink/script.rpy", line 127, in script call
+    call simongame pass (difficulty=1,endgame=4,goquick=5)
+  File "game/blink/script.rpy", line 49, in script
+    jump dangeon1
+ScriptError: could not find label 'dangeon1'.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 232, in script
-    if $qwest == 0:
-  File "renpy/ast.py", line 1898, in execute
-    if renpy.python.py_eval(condition):
-  File "renpy/python.py", line 2274, in py_eval
-    code = py_compile(code, 'eval')
-  File "renpy/python.py", line 835, in py_compile
-    raise e
-SyntaxError: invalid syntax (script.rpy, line 232)
+  File "game/blink/script.rpy", line 127, in script call
+    call simongame pass (difficulty=1,endgame=4,goquick=5)
+  File "game/blink/script.rpy", line 127, in script call
+    call simongame pass (difficulty=1,endgame=4,goquick=5)
+  File "game/blink/script.rpy", line 49, in script
+    jump dangeon1
+  File "renpy/ast.py", line 1757, in execute
+    rv = renpy.game.script.lookup(target)
+  File "renpy/script.py", line 918, in lookup
+    raise ScriptError("could not find label '%s'." % str(original))
+ScriptError: could not find label 'dangeon1'.
 
 Windows-10-10.0.19041
 Ren'Py 7.4.11.2266
 Diplom1 1.0
-Thu Jun 23 00:20:32 2022
+Thu Jun 23 02:51:48 2022

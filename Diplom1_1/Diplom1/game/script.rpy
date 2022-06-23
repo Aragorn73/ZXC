@@ -51,6 +51,14 @@ screen map12:
         idle 'images/mapp_idle.png'
         hotspot (450,260,100,100) action Jump('City')
         hotspot (450,495,650,100) action Jump('path1')
+        #hotspot (670,77,240,240) action Jump('digging')
+screen map11:
+    #выделение объекта
+    imagemap:
+        hover 'images/mapp_hover.png'
+        idle 'images/mapp_idle.png'
+        hotspot (450,260,100,100) action Jump('City')
+        hotspot (450,495,650,100) action Jump('path1')
         hotspot (670,77,240,240) action Jump('digging')
 #### сундук
 screen chest2:
@@ -104,6 +112,7 @@ label start:
     $qwest = 0 #квест не взят и не выполнен
     $cvetok = 0 #цветка нет
     $dang = 0 #пещера цела
+    $cv = 0 #цветок заблокирован
     "Добро пожалоть в визуальную новеллу"
 #    show screen button
     "Вступление...."
@@ -230,6 +239,9 @@ label alchemy:
     $text_qwest11 = "В пещере за озером растет одно редкое растение, оно необходимо мне для изготовления тайного зелья, исцеляющего недуг моего сына. Если ты принесешь мне его, я расскажу тебе где спрятан сундук с добром одного нашего бывшего мера, и даже случайно у меня завалялся ключ от этого сундка."
     $text_qwest12 = "Но вход в эту пещеру запечатан, тебе придется найти способ попасть внутрь."
     al "Чем могу помочь?"
+    # $qwest = 3
+    # $cvetok = 1
+    # $ items.extend([("flower", "Цветок")])
     menu:
         "Я хотел бы взглянуть на ваш товар":
             al "Да, конечно"
@@ -255,12 +267,19 @@ label alchemy:
                     "Нет, я еще не готов":
                         al "Слабак..."
                         jump alchemy
-            elif qwest == 1:
+            if qwest == 1 or qwest == 2:
                 al "Ты уже сделал то, о чем я тебя просил?"
                 menu:
                     "Еще нет, я в процессе":
                         al "Скорее бы уже"
                         jump alchemy
+                    "Да, я принес тебе цветок. Знаешь, это было непросто":
+                        if qwest == 2:
+                            jump give1
+                        else:
+                            al "Не ври мне, сукин сын"
+                            "..."
+                            jump alchemy
                     "Напомни, что нужно было сделать":
                         al "[text_qwest11]"
                         al "[text_qwest12]"
@@ -269,14 +288,18 @@ label alchemy:
                         al "Очень жаль"
                         $qwest = 0
                         jump alchemy
-            elif qwest == 2:
+
+            if qwest == 3:
                 al "Пока ничего нет, заходи в следующий раз"
                 jump alchemy
 
         "Город":
             jump City
     return
-
+label give1:
+    $cv = 1
+    al "Ого! Молодец, дружище, давай его скорее"
+    jump give1
 label alchemy1:
     scene alkhimiya
     with fade
@@ -304,19 +327,19 @@ label alchemy1:
                     jump alchemy1
                 "Отказаться":
                     jump alchemy1
-        "Ключ    20$":
-            menu:
-                "Купить":
-                    if money >= 20:
-                        $ items.extend([("key", "Ключ")])
-                        $ money -= 20
-                    else:
-                        al "Эй, сначала деньги!"
-                    jump alchemy1
-                "Отказаться":
-                    jump alchemy1
+        # "Ключ    20$":
+        #     menu:
+        #         "Купить":
+        #             if money >= 20:
+        #                 $ items.extend([("key", "Ключ")])
+        #                 $ money -= 20
+        #             else:
+        #                 al "Эй, сначала деньги!"
+        #             jump alchemy1
+        #         "Отказаться":
+        #             jump alchemy1
         "Вернуться обратно":
-            jump alchemy1
+            jump alchemy
     return
 #Продажа
 label alchemy2:
@@ -351,18 +374,23 @@ label alchemy2:
                     jump alchemy2
                 "Отказаться":
                     jump alchemy2
-        "Ключ    10$":
-            menu:
-                "Продать":
-                    $ money += 10
-                    jump alchemy2
-                "Отказаться":
-                    jump alchemy2
+        # "Ключ    10$":
+        #     menu:
+        #         "Продать":
+        #             $ money += 10
+        #             jump alchemy2
+        #         "Отказаться":
+        #             jump alchemy2
         "Вернуться обратно":
-            jump alchemy1
+            jump alchemy
     return
 
-label qwest_coplete
+label qwest_coplete:
+    $qwest = 3
+    al "Держи ключь от сундука, а так же я пометил место, где его искать, на твоей карте. Но для начала тебе понадобиться лопата, ты можешь приобрести ее у меня."
+    $ items.extend([("key", "Ключ")])
+    jump alchemy
+
 # алхимия выбор купить/продать
 # label alchemy3:
 #     scene alkhimiya
@@ -404,6 +432,7 @@ label qwest_coplete
 #локация город
 label City:
     hide screen map12
+    hide screen map11
     scene ploshchad
     with fade
     $ p1 = 0
@@ -426,9 +455,12 @@ label map:
     hide les1
     hide anton smile
     show mapp_idle
-    show screen map12
-    show screen cheat
-    show screen map123
+    if qwest == 3:
+        show screen map11
+    else:
+        show screen map12
+    #show screen cheat
+    #show screen map123
     "Куда же пойти.."
     jump map
 
@@ -437,6 +469,7 @@ label map:
 #копка лопатой
 label digging:
     hide screen map12
+    hide screen map11
     scene chest1
     with fade
     $ p2 = 1
@@ -500,36 +533,42 @@ label digging5:
 #
 #     return
 label dangeon:
-    #hide screen map12
+    hide screen map12
+    hide screen map11
     scene podzemelye1 with fade
 
     "Видите неподалеку пещеру"
-    е "Должно быть, это то место, о котором говорил алхимик. Но вход завален, как же пробраться внутрь..."
-    "Вы замечаете небольшую впадину, а за ней каменная дверь, на ней изображены странные символы, но их можно перемещать"
+    e "Должно быть, это то место, о котором говорил алхимик. Но вход завален, как же пробраться внутрь..."
+    "Вы замечаете небольшую впадину, а за ней каменная дверь, на ней изображены странные символы"
     menu:
         "Подойти и попробовать открыть вход":
             if dang == 0:
                 e "Ну что ж, попробуем"
-                    jump blink
+                jump blink
             else:
-                "Вы видите разрушенный вход в пещеру, и вам нмчего не остается. как вернуться к озерру"
-                    jump path1
+                "Dход в пещеру разрушен, и вам нbчего не остается, как вернуться к озеру"
+                jump path1
         "Вернуться к озеру":
             jump path1
 
     return
 
-label dungeon1:
+label dangeon1:
     scene podzemelye
     with dissolve
     "Заходите все глубже и глубже вы замечаете стаю волков."
     "Подходя еще ближе, вас замечают, и начинается битва."
-    "После долгой битвы вы одолеваете их. После ненадолгой передышки вы решаетесь отправиться дальше"
-    menu:
+    $result = renpy.random.randint(0,1)
+    if result == 0:
+        "Волки постепенно одолевают вас. Последнее, что вы видите, это их свирепык морды. Кажется, это конец..."
+    else:
+        "После долгой битвы вы одолеваете их. После ненадолгой передышки вы решаетесь отправиться дальше"
+        return
+        menu:
 
-        "подземелье 2 уроня":
-            jump dungeon2
-    return
+            "подземелье 2 уроня":
+                jump dungeon2
+        return
 
 label dungeon2:
     scene podzemelye with dissolve
@@ -547,7 +586,7 @@ label dungeon2:
             "Вам ничего не остается, как бежать, сломя голову к выходу..."
             jump path1
         "Убежать в панике":
-            $dang = 1
+            $dang = 1 #пещера разрушена
             "Свет в комнате резко гаснет, а пол и стены пещеры начинает трясти"
             "Вам ничего не остается, как бежать, сломя голову к выходу..."
             jump path1
@@ -556,12 +595,16 @@ label dungeon2:
 
 label path1:
     hide screen map12
+    hide screen map11
     scene les1 with fade
 
 
     $ p1 = 1 #флаг, что мы находимся в локации path
-    "Воспользуйтесь удочкой"
+    "Вы добрались до озера"
     menu:
+        "Порыбачить":
+            "Воспользуйтесь удочкой"
+            jump path1
         "Подойти к пещере":
             jump dangeon
         "Вернуться к глобалной карте":

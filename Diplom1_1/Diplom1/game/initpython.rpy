@@ -27,7 +27,8 @@ init -2 python:
                 renpy.jump("YouWin")
             #цветок
             if last_item[0] == "flower":
-                renpy.jump("qwest_coplete")
+                if cv ==1:
+                    renpy.jump("qwest_coplete")
 
 
 
